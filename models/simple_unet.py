@@ -82,7 +82,11 @@ class Unet(nn.Module):
         x6 = self.decoder_3(torch.cat((x5,x1), 1))
 
         return x6
+    def name(self):
+        return 'Unet'
+
         
+                
 def testUnet(gen):
   unet = Unet().float()
   print(type(gen))
