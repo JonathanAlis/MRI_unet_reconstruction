@@ -163,20 +163,16 @@ class Trainer():
         
     def erase_unwanted_models(self):
         #erase rows that do not have a saved model
-        df_history=self.df_history[self.df_history['epoch']<=self.last_epoch]
-        folders=list(df_history['checkpoint'])
-        files_2_delete=[folders+'/'+f for f in os.listdir(folders) if f.endswith(f'{self.learning_rate}.pth')]
-        if self.best_checkpoint in files_2_delete:
-            files_2_delete.remove(self.best_checkpoint)
-        if self.last_checkpoint in files_2_delete:
-            files_2_delete.remove(self.last_checkpoint)    
-
-        for f in files_2_delete:
-            try:
-                os.remove(f)            
-            except:
+        df_delete=self.df_history[(self.df_history['epoch']<self.last_epoch) & (self.df_history['epoch']!=self.best_epoch)]
+        checkpoints_to_delete=list(df_delete['checkpoint'])
+        for f in checkpoints_to_delete:
+            try:                                
+                os.remove(f)
                 if self.verbose:
-                    print(f'couldnt remove {f}')
+                     print(f'Deleting file {f}')           
+            except:
+                pass#if self.verbose:
+                    #print(f'couldnt remove {f}')
 
 
     ## Training function
@@ -223,12 +219,10 @@ class Trainer():
         return val_loss/datasize, t_val
     
 
-    def train(self, dl_train, dl_val, max_epochs=100):
+    def train(self, dl_train, dl_val, max_epochs=100, keep_best_last=True):
 
-        for current_epoch in range(self.last_epoch+1,max_epochs+1):
-            print('antes antes')
-            print(self.df_history)
-            print('EPOCH %d/%d' % (current_epoch, max_epochs)) 
+        for current_epoch in range(self.last_epoch+1,max_epochs+1):            
+            print('EPOCH %d/%d' % (current_epoch, max_epochs))
             ### Training (use the training function)
             train_loss, train_time = self.train_epoch(MRIdataloader=dl_train)
             ### Validation  (use the testing function)
@@ -236,15 +230,14 @@ class Trainer():
             filename=f'{self.saved_models_path}/{self.model_name}_{self.radial_lines}lines_{self.rectype}_epoch{current_epoch}_{self.lr_type}LR_{self.lr_scheduler.get_last_lr()[0]}.pth'        
             minimum_value=self.df_history['val_loss'].min() if len(self.df_history)>0 else float('inf')
 
-            if val_loss<=minimum_value:           
+            if val_loss <= minimum_value:           
                 self.save_model(filename, current_epoch, train_loss, val_loss)
                 status='new best'
                 self.best_model=filename
                 print(f'new best loss: {val_loss}')
-            else:
-                status='never best'    
-            print('antes')
-            print(self.df_history)
+            else:                
+                status='never best'
+
             self.df_history = pd.concat([self.df_history,
                                     pd.DataFrame({'epoch':[current_epoch],
                                                     'lr_type':[self.lr_type],
@@ -257,16 +250,16 @@ class Trainer():
                                                     'time_train':[train_time],
                                                     'time_val':[val_time]
                                                     })])
-            print('depois')
-            print(self.df_history)
+
             self.df_history = self.df_history.loc[:, ~self.df_history.columns.str.contains('^Unnamed')]            
             
             self.df_history.to_csv(self.csv_filename)    
             if self.verbose:
                    print(self.df_history)
                    print(f'saving to {self.csv_filename}')
+            if keep_best_last:
+                self.erase_unwanted_models()
             self.last_model=filename       
-        self.erase_unwanted_models()
 
         return self.df_history
 

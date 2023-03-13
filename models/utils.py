@@ -9,7 +9,6 @@ def get_default_device():
         return torch.device('cuda')
     else:
         return torch.device('cpu')
-device=get_default_device()
 
 def to_device(data, device):
     """Move tensor(s) to chosen device"""

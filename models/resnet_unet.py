@@ -100,7 +100,7 @@ class ResnetUnet(nn.Module):
         return out
 
     def name(self):
-        return 'Resnet_Unet'
+        return 'ResnetUnet'
 
 
 
