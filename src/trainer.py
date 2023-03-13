@@ -70,7 +70,7 @@ class Trainer():
             self.train_loss = self.checkpoint['train_loss']
             self.val_loss = self.checkpoint['val_loss']
         except:
-            print('No saved model found or not able to load.')
+            print('No saved model found or not able to load the model.')
             self.epoch = 0
             self.train_loss=float('inf')
             self.val_loss=float('inf')            
@@ -159,8 +159,9 @@ class Trainer():
             if os.path.isfile(row['checkpoint']):
                 self.last_epoch=row['epoch']
                 self.last_checkpoint=row['checkpoint']
+                self.df_history=self.df_history[self.df_history['epoch']<=self.last_epoch]
                 break
-        
+
     def erase_unwanted_models(self):
         #erase rows that do not have a saved model
         df_delete=self.df_history[(self.df_history['epoch']<self.last_epoch) & (self.df_history['epoch']!=self.best_epoch)]
@@ -219,7 +220,7 @@ class Trainer():
         return val_loss/datasize, t_val
     
 
-    def train(self, dl_train, dl_val, max_epochs=100, keep_best_last=True):
+    def train(self, dl_train, dl_val, max_epochs=100, delete_olds=True):
 
         for current_epoch in range(self.last_epoch+1,max_epochs+1):            
             print('EPOCH %d/%d' % (current_epoch, max_epochs))
@@ -230,8 +231,9 @@ class Trainer():
             filename=f'{self.saved_models_path}/{self.model_name}_{self.radial_lines}lines_{self.rectype}_epoch{current_epoch}_{self.lr_type}LR_{self.lr_scheduler.get_last_lr()[0]}.pth'        
             minimum_value=self.df_history['val_loss'].min() if len(self.df_history)>0 else float('inf')
 
+            self.save_model(filename, current_epoch, train_loss, val_loss)
+            self.last_model=filename
             if val_loss <= minimum_value:           
-                self.save_model(filename, current_epoch, train_loss, val_loss)
                 status='new best'
                 self.best_model=filename
                 print(f'new best loss: {val_loss}')
@@ -257,9 +259,8 @@ class Trainer():
             if self.verbose:
                    print(self.df_history)
                    print(f'saving to {self.csv_filename}')
-            if keep_best_last:
+            if delete_olds:
                 self.erase_unwanted_models()
-            self.last_model=filename       
 
         return self.df_history
 
