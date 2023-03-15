@@ -34,6 +34,8 @@ def train_all(num_radial_lines, exp_params, device='cuda:0', verbose=False):
 
         #train loop:
         history=model_trainer.train(train_dl, val_dl, max_epochs=epochs)
+        del model_trainer
+        torch.cuda.empty_cache()
 
 
 

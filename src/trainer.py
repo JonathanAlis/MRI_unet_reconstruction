@@ -220,7 +220,7 @@ class Trainer():
         return val_loss/datasize, t_val
     
 
-    def train(self, dl_train, dl_val, max_epochs=100, delete_olds=True):
+    def train(self, dl_train, dl_val, max_epochs=100, delete_olds=False):
 
         for current_epoch in range(self.last_epoch+1,max_epochs+1):            
             print('EPOCH %d/%d' % (current_epoch, max_epochs))
@@ -261,7 +261,7 @@ class Trainer():
                    print(f'saving to {self.csv_filename}')
             if delete_olds:
                 self.erase_unwanted_models()
-
+        
         return self.df_history
 
 
