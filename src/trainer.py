@@ -8,7 +8,7 @@ import os
 import time
 
 class Trainer():
-    def __init__(self, model_name, rectype, radial_lines, models_folder='MRIrec_experiments', 
+    def __init__(self, model_name, rectype, radial_lines, models_folder='MRIrec_experiments', last_or_best='last', 
                  device='cpu',lr_type='constant', learning_rate=1e-3, batch_size='auto', verbose=False) -> None:
         self.model_name=model_name
         self.rectype=rectype
@@ -18,6 +18,7 @@ class Trainer():
         self.device=device
         self.batch_size=batch_size
         self.models_folder=models_folder
+        self.last_or_best=last_or_best
         self.verbose=verbose
 
         self.model=self.select_model()        
@@ -62,7 +63,12 @@ class Trainer():
         params_to_optimize = [{'params': self.model.parameters()}]        
         self.define_optimizer(params_to_optimize)           
         try:
-            self.checkpoint = torch.load(self.last_checkpoint)
+            if self.last_or_best=='last':
+                self.checkpoint = torch.load(self.last_checkpoint)
+            elif self.last_or_best=='best':
+                self.checkpoint = torch.load(self.best_checkpoint)                
+            else:
+                print('last_or_best error. Choose either best or last model')
             self.model.load_state_dict(self.checkpoint['model_state_dict'])
             self.optimizer.load_state_dict(self.checkpoint['optimizer_state_dict'])
             self.lr_scheduler.load_state_dict(self.checkpoint['scheduler_state_dict'])
@@ -151,6 +157,8 @@ class Trainer():
             if os.path.isfile(row['checkpoint']):
                 self.best_epoch=row['epoch']
                 self.best_checkpoint=row['checkpoint']
+                if self.verbose:
+                    print(f'Best checkpoint: epoch {self.best_epoch}')
                 break
         
         #find last saved model
@@ -160,6 +168,8 @@ class Trainer():
                 self.last_epoch=row['epoch']
                 self.last_checkpoint=row['checkpoint']
                 self.df_history=self.df_history[self.df_history['epoch']<=self.last_epoch]
+                if self.verbose:
+                    print(f'Last checkpoint: epoch {self.last_epoch}')
                 break
 
     def erase_unwanted_models(self):
@@ -209,16 +219,21 @@ class Trainer():
         self.model.eval()
         val_loss=0
         datasize=0
-
         with torch.no_grad(): # No need to track the gradients
             for image_batch, image_noisy in tqdm(MRIdataloader):
                 result = self.model(image_noisy)
                 val_loss += loss_fn(result, image_batch)
-                datasize += image_batch.shape[0]
+                datasize += image_batch.shape[0]  
         val_loss=val_loss if not torch.is_tensor(val_loss) else val_loss.cpu().detach().numpy()
         t_val=time.time()-t_val
         return val_loss/datasize, t_val
     
+    def inference(self, MRIdataloader):
+        self.model.eval()
+        with torch.no_grad(): # No need to track the gradients
+            for image_batch, image_noisy in tqdm(MRIdataloader):
+                result = self.model(image_noisy)
+                yield result, image_batch, image_noisy
 
     def train(self, dl_train, dl_val, max_epochs=100, delete_olds=False):
 

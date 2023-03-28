@@ -19,7 +19,7 @@ def train_all(num_radial_lines, exp_params, device='cuda:0', verbose=False):
         model_name = p_model['model']
         rectype = p_model['rectype']
         lr_type, learning_rate = p_model['learning_rate']
-        model_trainer=Trainer(model_name, rectype, num_radial_lines, models_folder='MRIrec_experiments',
+        model_trainer=Trainer(model_name, rectype, num_radial_lines, models_folder='MRIrec_experiments', last_or_best='last',
                               device=device, lr_type=lr_type, learning_rate=learning_rate, verbose=verbose)
         epochs = p_model['max_epochs']
         
