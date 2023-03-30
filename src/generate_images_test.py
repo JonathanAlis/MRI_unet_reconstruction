@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from torchvision.utils import save_image
 from trainer import Trainer
 from datasets import OriginalReconstructionDataset
@@ -61,33 +62,30 @@ def test_all(num_radial_lines, exp_params, device='cuda:0', verbose=False):
         output_psnr=[]
         output_ssim=[]
         output_lpips=[]
+        imgs_ids=[]
         save_path=f"result_images/{p_model['model']}_{num_radial_lines}lines_{p_model['rectype']}_{model_trainer.best_epoch}epochs/"
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         
         
         for output_batch, original_batch, input_batch, image_idx in inference(model_trainer.model, test_dl):
-            print(original_batch.shape)
-            print(input_batch.shape)
-            print(output_batch.shape)
-            print(len(test_ds.images))
-            for i in list(image_idx):
-                print(test_ds.images[i])
-                img_id=test_ds.images[i].replace('_normalized','')
-                save_image(output_batch[i,...], f'{save_path}{img_id}')
-                
-            return
-            p0,s0,l0=batch_metrics(original_batch.cpu(), input_batch.cpu())
+            for i, idx in enumerate(list(image_idx)):
+                img_id=test_ds.images[idx].replace('_normalized.png','')
+                save_image(output_batch[i,...], f'{save_path}{img_id}.png')
+                imgs_ids.append(img_id)
+            #p0,s0,l0=batch_metrics(original_batch.cpu(), input_batch.cpu())
             p1,s1,l1=batch_metrics(original_batch.cpu(), output_batch.cpu())
-            input_psnr+=p0
-            input_ssim+=s0
-            input_lpips+=l0
+            #input_psnr+=p0
+            #input_ssim+=s0
+            #input_lpips+=l0
             output_psnr+=p1
             output_ssim+=s1
             output_lpips+=l1
             #print(original_batch.shape, input_batch.shape, output_batch.shape)
-        print(input_psnr)
-        print(output_psnr)
+        #print(input_psnr)
+        df=pd.DataFrame(list(zip(imgs_ids, output_psnr, output_ssim, output_lpips)), columns =['id', 'psnr', 'ssim', 'lpips'])
+        print(df)
+        df.to_csv(f'{save_path}metrics.csv')
         #print(recs.shape)
         #train loop:
         #history=model_trainer.train(train_dl, val_dl, max_epochs=epochs)
