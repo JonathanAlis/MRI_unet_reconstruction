@@ -21,12 +21,13 @@ class OriginalReconstructionDataset(Dataset):
             rectypes_list.append('_'.join(p))
     
 
-    def __init__(self, radial_lines, rectype, set='train', img_size=(256,256)):
+    def __init__(self, radial_lines, rectype, set='train', img_size=(256,256), return_idx=False):
         self.get_indices()
         self.rectype=rectype.split('_')
         self.radial_lines=radial_lines
         self.images_dir=(self.DATASET_DIR+'birn_png/')
         self.set=set
+        self.return_idx=return_idx
         rec_dirs=[(f"{self.DATASET_DIR}birn_pngs_{rl}lines_{rt}/") for rt in self.rectypes_list for rl in self.all_radial_lines]
         
         self.rec_images_dirs=[]
@@ -67,7 +68,10 @@ class OriginalReconstructionDataset(Dataset):
             rec_imgs.append(tensor)
         noisy=torch.stack(rec_imgs)
         noisy=torch.squeeze(noisy, 1)#.half()
-        return (img,noisy)
+        if self.return_idx:
+            return (img,noisy, idx)
+        else:
+            return (img,noisy)
 
     def print_first_element_shape(self):
         for data in self:
