@@ -102,8 +102,8 @@ exp_params={"model": ['Unet','ResnetUnet', 'ConvUNeXt'],
 }
 
 
-radial_lines=[20]#,40,60,80,100]
-
+radial_lines=[20,40,60,80,100]# 
+ 
 for rl in radial_lines:#OriginalReconstructionDataset.all_radial_lines:
     test_all(rl, exp_params, device='cuda:0', verbose=True)
 
