@@ -1,0 +1,5 @@
+outs:
+- md5: 00e65a2add495002f7a084d9c5bf7e02.dir
+  size: 2049721226
+  nfiles: 101
+  path: Unet_60lines_L2

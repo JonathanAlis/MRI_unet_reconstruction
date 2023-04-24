@@ -1,0 +1,5 @@
+outs:
+- md5: 6c7fa82f28803611a1174f4ed97258ff.dir
+  size: 18107713
+  nfiles: 403
+  path: Unet_100lines_TV_78epochs

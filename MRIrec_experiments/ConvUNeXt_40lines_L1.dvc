@@ -1,0 +1,5 @@
+outs:
+- md5: 40ab68153e216a81501ad9a2459bcf0e.dir
+  size: 4225113949
+  nfiles: 101
+  path: ConvUNeXt_40lines_L1

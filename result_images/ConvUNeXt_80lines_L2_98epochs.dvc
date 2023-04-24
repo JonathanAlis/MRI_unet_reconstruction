@@ -1,0 +1,5 @@
+outs:
+- md5: 1d11b5196f7a32ef34182ed4e4da6722.dir
+  size: 17051830
+  nfiles: 403
+  path: ConvUNeXt_80lines_L2_98epochs

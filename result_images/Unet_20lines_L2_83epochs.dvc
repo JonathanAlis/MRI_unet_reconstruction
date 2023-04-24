@@ -1,0 +1,5 @@
+outs:
+- md5: 7fc43db157307282652f58f0de4fe50f.dir
+  size: 14575436
+  nfiles: 403
+  path: Unet_20lines_L2_83epochs

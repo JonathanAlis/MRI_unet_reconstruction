@@ -1,0 +1,5 @@
+outs:
+- md5: 702d7deffa3f466a6f1443faf7fc8378.dir
+  size: 21571866210
+  nfiles: 101
+  path: ResnetUnet_60lines_TV

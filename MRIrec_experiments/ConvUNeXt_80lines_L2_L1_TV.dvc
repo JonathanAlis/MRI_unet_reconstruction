@@ -1,0 +1,5 @@
+outs:
+- md5: 315fb32247a1a24e7f7859cd2028c06d.dir
+  size: 4228878289
+  nfiles: 101
+  path: ConvUNeXt_80lines_L2_L1_TV

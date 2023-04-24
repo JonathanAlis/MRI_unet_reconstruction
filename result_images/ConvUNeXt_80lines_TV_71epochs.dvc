@@ -1,0 +1,5 @@
+outs:
+- md5: c3df9b3417991f072f5f8a514309f1d5.dir
+  size: 17920190
+  nfiles: 403
+  path: ConvUNeXt_80lines_TV_71epochs

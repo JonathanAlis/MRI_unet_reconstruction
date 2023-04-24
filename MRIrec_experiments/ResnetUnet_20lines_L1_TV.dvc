@@ -1,0 +1,5 @@
+outs:
+- md5: 534562dec21bf7c83c84e24d0af1647b.dir
+  size: 21576321209
+  nfiles: 101
+  path: ResnetUnet_20lines_L1_TV

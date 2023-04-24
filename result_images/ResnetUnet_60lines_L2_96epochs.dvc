@@ -1,0 +1,5 @@
+outs:
+- md5: bd76ec193ee5294af5b5316592b3025c.dir
+  size: 17384376
+  nfiles: 403
+  path: ResnetUnet_60lines_L2_96epochs

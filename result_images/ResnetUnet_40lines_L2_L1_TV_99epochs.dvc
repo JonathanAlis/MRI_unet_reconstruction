@@ -1,0 +1,5 @@
+outs:
+- md5: e3f34bc5fd66c763203ab88a2419c6d5.dir
+  size: 16447877
+  nfiles: 403
+  path: ResnetUnet_40lines_L2_L1_TV_99epochs

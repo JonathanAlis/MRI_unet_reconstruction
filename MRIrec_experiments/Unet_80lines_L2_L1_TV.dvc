@@ -1,0 +1,5 @@
+outs:
+- md5: 7bf238ce975ff28d51117bb08e47753e.dir
+  size: 2051104726
+  nfiles: 101
+  path: Unet_80lines_L2_L1_TV

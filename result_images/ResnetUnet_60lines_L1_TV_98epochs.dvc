@@ -1,0 +1,5 @@
+outs:
+- md5: 70baf28ce04706e08f1c1bb8cad32e04.dir
+  size: 17687806
+  nfiles: 403
+  path: ResnetUnet_60lines_L1_TV_98epochs

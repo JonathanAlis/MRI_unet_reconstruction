@@ -1,0 +1,5 @@
+outs:
+- md5: 9c315c18492c9b367d57abf105e96e45.dir
+  size: 18701221
+  nfiles: 403
+  path: ResnetUnet_100lines_L2_L1_100epochs

@@ -1,0 +1,5 @@
+outs:
+- md5: e9a27c26cd00da578676bca0a7b795f6.dir
+  size: 14436935
+  nfiles: 403
+  path: Unet_20lines_L1_86epochs

@@ -1,0 +1,5 @@
+outs:
+- md5: 73dba0e7fab7b7bc7646b70587a7f64c.dir
+  size: 14088472
+  nfiles: 403
+  path: ConvUNeXt_20lines_L1_95epochs

@@ -1,0 +1,5 @@
+outs:
+- md5: 100c26ee53e18557a206be684c963f1e.dir
+  size: 14204786
+  nfiles: 403
+  path: ConvUNeXt_20lines_L2_TV_91epochs

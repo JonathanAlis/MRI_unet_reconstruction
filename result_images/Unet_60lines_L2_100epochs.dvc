@@ -1,0 +1,5 @@
+outs:
+- md5: ed57d275340a183b37998d67f759edce.dir
+  size: 16719327
+  nfiles: 403
+  path: Unet_60lines_L2_100epochs

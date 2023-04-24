@@ -1,0 +1,5 @@
+outs:
+- md5: 7cafe42a5ccb3743c3bd086766acc11f.dir
+  size: 15304798
+  nfiles: 403
+  path: Unet_20lines_L1_TV_98epochs

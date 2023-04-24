@@ -1,0 +1,5 @@
+outs:
+- md5: 80040c814388de22c3c2690d4f958bb0.dir
+  size: 21571866228
+  nfiles: 101
+  path: ResnetUnet_80lines_L1

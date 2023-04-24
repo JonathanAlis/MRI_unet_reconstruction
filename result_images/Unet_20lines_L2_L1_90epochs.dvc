@@ -1,0 +1,5 @@
+outs:
+- md5: b381b1883c2612e505d4ef59e2b087c6.dir
+  size: 15347723
+  nfiles: 403
+  path: Unet_20lines_L2_L1_90epochs

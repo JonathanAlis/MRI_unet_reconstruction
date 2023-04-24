@@ -1,0 +1,5 @@
+outs:
+- md5: 1fafafc626dd6517be3cc32828b3135c.dir
+  size: 14210176
+  nfiles: 403
+  path: ResnetUnet_20lines_L2_TV_97epochs

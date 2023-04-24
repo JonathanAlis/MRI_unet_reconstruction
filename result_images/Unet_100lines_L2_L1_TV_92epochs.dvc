@@ -1,0 +1,5 @@
+outs:
+- md5: 5ab33f73478da9cd1f79ebbb6a636c20.dir
+  size: 18581525
+  nfiles: 403
+  path: Unet_100lines_L2_L1_TV_92epochs
