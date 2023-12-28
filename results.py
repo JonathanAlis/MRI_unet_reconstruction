@@ -122,7 +122,7 @@ with open('subset_path.txt', 'w') as file:
                 file.write(path + '\n')
                 counter+=1
         for tr in type_rec:
-            path = f'BIRN_dataset/birn_pngs_20lines_{tr}/{r}.png'
+            path = f'BIRN_dataset/birn_pngs_20lines_{tr}/{r}_{tr}_20lines.png'
             file.write(path + '\n')
             counter+=1
                 
