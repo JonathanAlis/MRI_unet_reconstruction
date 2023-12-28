@@ -121,6 +121,12 @@ with open('subset_path.txt', 'w') as file:
                 path = f'result_images/{f}/{r}.png'
                 file.write(path + '\n')
                 counter+=1
+        for tr in type_rec:
+            path = f'BIRN_dataset/birn_pngs_20lines_{tr}/{r}.png'
+            file.write(path + '\n')
+            counter+=1
+                
 print(folders)
 print(counter)
 #result_images/ConvUNeXt_20lines_TV_100epochs
+
