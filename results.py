@@ -74,13 +74,16 @@ print(stat, p_value)
 decimal_places_dict = {'epocs': 0, 'psnr': 2, 'ssim': 3, 'lpips': 3}
 df = df.round(decimal_places_dict)
 #print(df)
-df.to_excel('results.xlsx', index=False)
+df.to_excel('results/results.xlsx', index=False)
+df.to_csv('results/results.csv', index=False)
 grouped = df.groupby('radial_lines')
 result_dict = {key: group for key, group in grouped}
 #print(result_dict)
 for key, value in result_dict.items():
     #print(f"\nKey: {key}\n{value}")
-    value.to_excel(f'results_{key}lines.xlsx', index=False)
+    value.to_excel(f'results/results_{key}lines.xlsx', index=False)
+    value.to_csv(f'results/results_{key}lines.csv', index=False)
+
     value.drop(columns=['radial_lines','epochs','folder'], inplace=True)
 
     df_rl = value.pivot(index=['reconstruction'], columns=['unet'], values = 'metrics')#['psnr','ssim','lpips'])
@@ -88,7 +91,8 @@ for key, value in result_dict.items():
     df_rl = df_rl.loc[type_recs]
     df_rl = df_rl[unet_types]
     #print(df_rl)
-    df_rl.to_excel(f'formated_results_{key}lines.xlsx', index=True)
+    df_rl.to_excel(f'results/formated_results_{key}lines.xlsx', index=True)
+    df_rl.to_csv(f'results/formated_results_{key}lines.csv', index=True)
     print(df_rl.to_latex())
 
 
@@ -99,7 +103,8 @@ result_dict = {key: group for key, group in grouped}
 
 for key, value in result_dict.items():
     #print(f"\nKey: {key}\n{value}")
-    value.to_excel(f'results_{key}.xlsx', index=False)
+    value.to_excel(f'results/results_{key}.xlsx', index=False)
+    value.to_csv(f'results/results_{key}.csv', index=False)
     value.drop(columns=['unet','epochs','folder'], inplace=True)
 
     df_rl = value.pivot(index=['reconstruction'], columns=['radial_lines'], values = 'metrics')#['psnr','ssim','lpips'])
@@ -107,7 +112,8 @@ for key, value in result_dict.items():
     df_rl = df_rl.loc[type_recs]
     df_rl = df_rl[radial_lines_num]
     #print(df_rl)
-    df_rl.to_excel(f'formated_results_{key}.xlsx', index=True)
+    df_rl.to_excel(f'results/formated_results_{key}.xlsx', index=True)
+    df_rl.to_csv(f'results/formated_results_{key}.csv', index=True)
     print(df_rl.to_latex())
           
 print(csv_df.head(10))
